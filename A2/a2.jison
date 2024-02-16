@@ -1,11 +1,11 @@
 /* 
     description: CS 331 - Spring 2024 - A2
 
-    your names: _____________________
+    your names: Adeel Sultan
 
-                _____________________
+                Isaac Schneider
                   
-                _____________________
+                Tyler Kamholz
 */
 
 // lexical section of the grammar 

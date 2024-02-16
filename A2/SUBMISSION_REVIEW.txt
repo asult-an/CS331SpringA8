@@ -1,0 +1,2 @@
+All lines should be shorter than 75 characters
+Don't use hard tabs (what are hard tabs?)
