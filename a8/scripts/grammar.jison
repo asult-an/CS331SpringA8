@@ -68,6 +68,7 @@ exp
     | print_exp     { $$ = $1; }
     | print2_exp    { $$ = $1; }
     | assign_exp    { $$ = $1; }
+    | letmr_exp     { $$ = $1; }
     ;
 
 var_exp
