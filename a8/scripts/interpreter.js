@@ -73,18 +73,14 @@ function sequenceAppExp(bindings, body, envir) {
         args[i] = evalExp(RHS, envir);
         envir = E.update(envir, [params[i]], [args[i]]);
         args[i] = A.createIntExp(args[i][1]);
-        console.log("Completed binding " + i);
-        console.log(envir);
     }
-    args.slice().unshift("args");
+    args.unshift("args");
     
     var fn = A.createFnExp(params, body);
     return A.createAppExp(fn, args);
 }
 function callByValue(exp,envir) {
-    console.log(A.getAppExpArgs(exp));
     var f = evalExp(A.getAppExpFn(exp),envir);
-    console.log(exp[2]);
     var args = evalExps(A.getAppExpArgs(exp),envir); //THESE ARGS SHOULD BE expS, NOT VALUES...?
     
     if (E.isClo(f)) {
@@ -104,7 +100,6 @@ function callByValue(exp,envir) {
     }    
 }
 function evalExp(exp,envir) {
-    console.log("HERE", exp);
     var body, bindings, values;
     if (A.isIntExp(exp)) {
 	    return E.createNum(A.getIntExpValue(exp));
@@ -132,11 +127,10 @@ function evalExp(exp,envir) {
 	    return callByValue(exp,envir);
     } else if (A.isLetsExp(exp)){
         var newAppExp = sequenceAppExp(A.getLetsExpBindings(exp), A.getLetsExpBody(exp), envir);
-        console.log("calling by value in lets")
         return callByValue(newAppExp, envir);
-    } else if (A.isLetmrExp) {
+    } /*else if (A.isLetmrExp) {
         //CONITNUE HERE
-    } else if (A.isPrim1AppExp(exp)) {
+    } */else if (A.isPrim1AppExp(exp)) {
         return applyPrimitive(A.getPrim1AppExpPrim(exp),
 			      [evalExp(A.getPrim1AppExpArg(exp),envir)]);
     } else if (A.isPrim2AppExp(exp)) {
