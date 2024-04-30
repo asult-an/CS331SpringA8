@@ -114,6 +114,19 @@ function sequenceAppExp(bindings, body, envir) {
     var fn = A.createFnExp(params, body);
     return A.createAppExp(fn, args);
 }
+function createRecursiveFunctions(exp, envir) {
+    var vars = A.getLetmrExpVars(exp);
+    var bodies = A.getLetmrExpBodies(exp);
+    var dummy_f = E.createClo([], [], envir);
+    var dummy_g = E.createClo([], [], envir);
+    var newEnv = E.update(envir, [vars[0], vars[1]], [dummy_f, dummy_g]);
+    var f = E.createClo([vars[0]], bodies[0], newEnv);
+    var g = E.createClo([vars[1]], bodies[1], newEnv);
+    dummy_f = f;
+    dummy_g = g;
+    
+
+}
 function callByValue(exp,envir) {
     var f = evalExp(A.getAppExpFn(exp),envir);
     var args = evalExps(A.getAppExpArgs(exp),envir); //THESE ARGS SHOULD BE expS, NOT VALUES...?
@@ -163,9 +176,10 @@ function evalExp(exp,envir) {
     } else if (A.isLetsExp(exp)){
         var newAppExp = sequenceAppExp(A.getLetsExpBindings(exp), A.getLetsExpBody(exp), envir);
         return callByValue(newAppExp, envir);
-    } /*else if (A.isLetmrExp) {
-        //CONITNUE HERE
-    } */else if (A.isPrim1AppExp(exp)) {
+    } else if (A.isLetmrExp) {
+        createRecursiveFunctions(exp, envir);
+        //handle let block body thing application expression thing
+    } else if (A.isPrim1AppExp(exp)) {
         return applyPrimitive(A.getPrim1AppExpPrim(exp),
 			      [evalExp(A.getPrim1AppExpArg(exp),envir)]);
     } else if (A.isPrim2AppExp(exp)) {
