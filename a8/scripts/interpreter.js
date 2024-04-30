@@ -1,5 +1,40 @@
 /* global SLang : true, parser, console  */
 
+/* 
+Authors: Adeel Sultan, Tyler Kamholz, Isaac Schneider
+
+For Dynamic Binding
+    In env.js replace the createClo() function to: 
+
+    function createClo(params, body) {
+    return ["Clo", params, body];
+}
+
+in interpreter.js change callByValue() to:
+
+    function callByValue(exp, envir) {
+    var f = evalExp(A.getAppExpFn(exp), envir);
+    var args = evalExps(A.getAppExpArgs(exp), envir);
+    if (E.isClo(f)) {
+        if (E.getCloParams(f).length !== args.length) {
+            throw new Error(`Runtime error: Wrong number of arguments in a function call. Expected ${E.getCloParams(f).length}, but got ${args.length}.`);
+        } else {
+            // Use the current environment instead of the closure's environment
+            var newEnv = E.update(envir, E.getCloParams(f), args);
+            var values = evalExps(E.getCloBody(f), newEnv);
+            return values[values.length - 1];
+        }
+    } else {
+        throw new Error(`${f} is not a closure and cannot be applied.`);
+    }
+}
+
+Output for given program with static binding: ["Num", 13]
+
+Output for given program with dynamic binding: ["Num", 2020]
+
+*/
+
 (function () {
 
     "use strict";
