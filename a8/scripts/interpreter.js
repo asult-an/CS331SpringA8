@@ -117,14 +117,20 @@ function sequenceAppExp(bindings, body, envir) {
 function createRecursiveFunctions(exp, envir) {
     var vars = A.getLetmrExpVars(exp);
     var bodies = A.getLetmrExpBodies(exp);
+    var block = A.getLetmrExpBlock(exp);
     var dummy_f = E.createClo([], [], envir);
     var dummy_g = E.createClo([], [], envir);
     var newEnv = E.update(envir, [vars[0], vars[1]], [dummy_f, dummy_g]);
     var f = E.createClo([vars[0]], bodies[0], newEnv);
     var g = E.createClo([vars[1]], bodies[1], newEnv);
-    dummy_f = f;
-    dummy_g = g;
+    dummy_f[1] = f[1]; // params
+    dummy_f[2] = f[2]; // body
+    dummy_f[3] = f[3]; // env
+    dummy_g[1] = g[1];
+    dummy_g[2] = g[2];
+    dummy_g[3] = g[3];
     
+    return evalExps(block, newEnv);
 
 }
 function callByValue(exp,envir) {
