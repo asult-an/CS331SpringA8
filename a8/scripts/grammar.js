@@ -123,7 +123,7 @@ break;
 case 25:
  var vars = [$$[$0-8], $$[$0-5]];
              var bodies = [$$[$0-6], $$[$0-3]];
-             this.$ = SLang.absyn.createLetmrExp(vars, bodies, block);
+             this.$ = SLang.absyn.createLetmrExp(vars, bodies, $$[$0-1]);
            
 break;
 case 26:

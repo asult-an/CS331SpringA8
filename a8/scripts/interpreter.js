@@ -129,6 +129,8 @@ function createRecursiveFunctions(exp, envir) {
     dummy_g[1] = g[1];
     dummy_g[2] = g[2];
     dummy_g[3] = g[3];
+
+    console.log(block);
     
     return evalExps(block, newEnv);
 
@@ -182,7 +184,7 @@ function evalExp(exp,envir) {
     } else if (A.isLetsExp(exp)){
         var newAppExp = sequenceAppExp(A.getLetsExpBindings(exp), A.getLetsExpBody(exp), envir);
         return callByValue(newAppExp, envir);
-    } else if (A.isLetmrExp) {
+    } else if (A.isLetmrExp(exp)) {
         createRecursiveFunctions(exp, envir);
         //handle let block body thing application expression thing
     } else if (A.isPrim1AppExp(exp)) {

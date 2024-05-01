@@ -116,7 +116,7 @@ letmr_exp
     : LETMR VAR EQ fn_exp VAR EQ fn_exp IN block END
            { var vars = [$2, $5];
              var bodies = [$4, $7];
-             $$ = SLang.absyn.createLetmrExp(vars, bodies, block);
+             $$ = SLang.absyn.createLetmrExp(vars, bodies, $9);
            }
     ; 
 
